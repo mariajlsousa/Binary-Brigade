@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class Controller : MonoBehaviour
+public class View : MonoBehaviour
 {
     // Start is called before the first frame update
     //void Start()
@@ -14,6 +14,13 @@ public class Controller : MonoBehaviour
 
     public TextMeshProUGUI Screen;
 
+    public event System.EventHandler UserPressedButtom;
+
+    public delegate void Clicked(string value);
+
+    public Clicked buttonPressed;
+
+    
 
     //public TextMeshProUGUI displayText;
 
@@ -23,6 +30,12 @@ public class Controller : MonoBehaviour
 
     public void OnButtonCLick(string buttonValue)
     {
+
+        Debug.Log("Hello, " + buttonValue);
+
+        //UserPressedButtom(buttonValue, );
+
+
 
         if (buttonValue == "=")
         {
@@ -48,11 +61,11 @@ public class Controller : MonoBehaviour
 
             currentInput = result.ToString();
         }
-        catch(System.Exception)
+        catch (System.Exception)
         {
             currentInput = "Error";
         }
-   
+
 
         UpdateDisplay();
 
