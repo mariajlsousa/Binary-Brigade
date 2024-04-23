@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -124,3 +124,32 @@ public class Model
     }
 
 }
+*/
+
+// ----- Criado por mim para ver o funcionamento
+
+
+using UnityEngine;
+using TMPro;
+
+public class View : MonoBehaviour
+{
+    public TextMeshProUGUI Screen; // Componente de texto para mostrar o resultado dos calculos na calculadora
+    public string currentInput = ""; // Entrada dos valores pelo utilizador
+    public double result = 0.0; // Resultado do último cálculo efetuado
+
+    // Atualiza a calculadora, ou com a entrada de valores, ou com o resultado final
+    public void UpdateDisplay()
+    {
+        Screen.text = currentInput;
+    }
+
+    // Limpa todos os registos e resultados - clear.
+    public void ClearInput()
+    {
+        currentInput = "";
+        result = 0.0;
+        UpdateDisplay();
+    }
+}
+
