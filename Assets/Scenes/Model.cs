@@ -2,17 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Modelold : MonoBehaviour
+public class Model
 {
-    // Start is called before the first frame update
-    void Start()
+    //public double result = 0.0;
+    public string result = "";
+
+    // Delegado para passar o resultado para a view
+    public delegate void PassaResultado(string value);
+    public event PassaResultado? AtualizaView;
+
+    // Construtor do modelo
+    public Model(Controller controller)
     {
-        
+        // Registar o método Calculateresult para ser chamado quando uma operação é solicitada
+        controller.PassaAoModel += Calculateresult;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Método para calcular o resultado da operação
+    public void Calculateresult(string value)
     {
-        
+        try
+        {
+            result = (System.Convert.ToDouble(new System.Data.DataTable().Compute(value, ""))).ToString() ;
+
+        }
+        catch (System.Exception)
+        {
+            result = "Error";
+        }
+
+        AtualizaView?.Invoke(result);
+
+
     }
+
 }
