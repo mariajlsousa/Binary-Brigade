@@ -9,12 +9,12 @@ public class Model
 
     // Delegado para passar o resultado para a view
     public delegate void PassaResultado(string value);
-    public event PassaResultado? AtualizaView;
+    public event PassaResultado AtualizaView;
 
     // Construtor do modelo
     public Model(Controller controller)
     {
-        // Registar o método Calculateresult para ser chamado quando uma operação é solicitada
+        // subscreve o evento do do controller ao metodo Calculateresult 
         controller.PassaAoModel += Calculateresult;
     }
 

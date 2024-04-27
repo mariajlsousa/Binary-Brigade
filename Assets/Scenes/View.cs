@@ -19,7 +19,7 @@ public class View : MonoBehaviour
 
     // Definição de um delegate para lidar com cliques nos botões
     public delegate void AoClicarNoBotao(string value);
-    public event AoClicarNoBotao? BotaoClicado;
+    public event AoClicarNoBotao BotaoClicado;
 
 
     void Start()

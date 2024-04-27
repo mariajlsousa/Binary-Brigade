@@ -9,11 +9,11 @@ public class Controller
 
     // Delegado para passar o buffer para a vista
     public delegate void PassabufferView(string value);
-    public event PassabufferView? AtualizaView;
+    public event PassabufferView AtualizaView;
 
     // Delegado para passar o buffer para o modelo
     public delegate void PassabufferModel(string value);
-    public event PassabufferModel? PassaAoModel;
+    public event PassabufferModel PassaAoModel;
 
     public Controller(View view)
     {
@@ -32,6 +32,13 @@ public class Controller
         {
             currentInput = "";
             AtualizaView?.Invoke(currentInput);
+        }
+        else if (value == "B")
+        {
+            
+            // implement the logic to remove the last character
+
+            //AtualizaView?.Invoke(currentInput);
         }
         else
         {
