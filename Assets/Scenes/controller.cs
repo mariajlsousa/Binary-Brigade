@@ -17,11 +17,11 @@ public class Controller
 
     public Controller(View view)
     {
-        // Regista o método buttonClicked para ser chamado quando um botão é clicado na vista
+        // Regista o mï¿½todo buttonClicked para ser chamado quando um botï¿½o ï¿½ clicado na vista
         view.BotaoClicado += buttonClicked;
     }
 
-    // Método chamado quando um botão é clicado na view
+    // Mï¿½todo chamado quando um botï¿½o ï¿½ clicado na view
     public void buttonClicked(string value)
     {
         if (value == "=")
@@ -36,6 +36,12 @@ public class Controller
         else if (value == "B")
         {
             
+        // implement the logic to remove the last character
+            currentInput = currentInput.Substring(0, currentInput.Length - 1);
+            AtualizaView?.Invoke(currentInput);
+}
+else
+
             // implement the logic to remove the last character
 
             //AtualizaView?.Invoke(currentInput);
@@ -46,4 +52,3 @@ public class Controller
             AtualizaView?.Invoke(currentInput);
         }
     }
-}
