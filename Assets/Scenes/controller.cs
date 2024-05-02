@@ -35,20 +35,16 @@ public class Controller
         }
         else if (value == "B")
         {
-            
-        // implement the logic to remove the last character
-            currentInput = currentInput.Substring(0, currentInput.Length - 1);
-            AtualizaView?.Invoke(currentInput);
-}
-else
 
             // implement the logic to remove the last character
-
-            //AtualizaView?.Invoke(currentInput);
+            currentInput = currentInput.Substring(0, currentInput.Length - 1);
+            AtualizaView?.Invoke(currentInput);
         }
+
         else
         {
             currentInput += value;
             AtualizaView?.Invoke(currentInput);
         }
     }
+}
