@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,13 +27,26 @@ public class Model
             result = (System.Convert.ToDouble(new System.Data.DataTable().Compute(value, ""))).ToString() ;
 
         }
-        catch (System.Exception)
+        catch (FormatException ex)
         {
-            result = "Error";
+            // Handle format-related errors
+            result = "Erro no formato: " + ex.Message;
+            //Debug.Log("Format Error: " + ex.Message);
+        }
+        catch (OverflowException ex)
+        {
+            // Handle overflow errors
+            result = "Erro de Overflow: " + ex.Message;
+            //Debug.Log("Overflow Error: " + ex.Message);
+        }
+        catch (System.Exception ex)
+        {
+            //result = "Error";
+            result = "Erro: " + ex.Message;
+            Debug.Log("Error = " + ex.Message);
         }
 
         AtualizaView?.Invoke(result);
-
 
     }
 

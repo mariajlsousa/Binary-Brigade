@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,15 +37,22 @@ public class Controller
         else if (value == "B")
         {
 
-            // implement the logic to remove the last character
-            currentInput = currentInput.Substring(0, currentInput.Length - 1);
-            AtualizaView?.Invoke(currentInput);
+            if (!string.IsNullOrEmpty(currentInput))
+            {
+                // implement the logic to remove the last character
+                currentInput = currentInput.Substring(0, currentInput.Length - 1);
+                AtualizaView?.Invoke(currentInput);
+            }
         }
-
+            
         else
         {
             currentInput += value;
             AtualizaView?.Invoke(currentInput);
         }
     }
+
+
+
+
 }
