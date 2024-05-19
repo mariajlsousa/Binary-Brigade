@@ -3,51 +3,74 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Model
+
+// IModel.cs
+public interface IModel
+{
+ 
+    public event Action<string> AtualizaView;
+    public event Action<string> PassaErroAoControl;
+    void CalculateResult(string value);
+
+    void Initialize(IController controller); // Adicionando o método Initialize
+}
+
+
+public class Model : IModel
 {
     //public double result = 0.0;
     public string result = "";
 
-    // Delegado para passar o resultado para a view
-    public delegate void PassaResultado(string value);
-    public event PassaResultado AtualizaView;
+    public event Action<string> AtualizaView;
+    public event Action<string> PassaErroAoControl;
+
+    private IController controller;
+
 
     // Construtor do modelo
-    public Model(Controller controller)
+    public Model()
     {
-        // subscreve o evento do do controller ao metodo Calculateresult 
-        controller.PassaAoModel += Calculateresult;
     }
 
+    public void Initialize(IController controller)
+    {
+        this.controller = controller;
+        controller.PassaAoModel += CalculateResult;
+    }
+
+
     // Método para calcular o resultado da operação
-    public void Calculateresult(string value)
+    public void CalculateResult(string value)
     {
         try
         {
             result = (System.Convert.ToDouble(new System.Data.DataTable().Compute(value, ""))).ToString() ;
-
+            AtualizaView?.Invoke(result);
         }
         catch (FormatException ex)
         {
             // Handle format-related errors
-            result = "Erro no formato: " + ex.Message;
+            //result = "Erro no formato: " + ex.Message;
+            PassaErroAoControl?.Invoke(ex.Message);
             //Debug.Log("Format Error: " + ex.Message);
         }
         catch (OverflowException ex)
         {
             // Handle overflow errors
-            result = "Erro de Overflow: " + ex.Message;
+            //result = "Erro de Overflow: " + ex.Message;
+            PassaErroAoControl?.Invoke(ex.Message);
             //Debug.Log("Overflow Error: " + ex.Message);
         }
         catch (System.Exception ex)
         {
             //result = "Error";
-            result = "Erro: " + ex.Message;
-            Debug.Log("Error = " + ex.Message);
+            // = ex.Message;
+            PassaErroAoControl?.Invoke(ex.Message);
+            //Debug.Log("Error = " + ex.Message);
         }
 
-        AtualizaView?.Invoke(result);
+        
 
     }
 
-}
+   }
