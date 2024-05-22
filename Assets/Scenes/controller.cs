@@ -1,92 +1,73 @@
 using System;
 using System.Collections;
-
 using System.Collections.Generic;
 using UnityEngine;
 
-// IController.cs
+// Interface para o controller
 public interface IController
 {
     void ButtonClicked(string value);
-
     event Action<string> PassaAoModel;
     event Action<string> AtualizaView;
-
-    void Initialize(IModel model); // Adicionando o método Initialize
+    void Initialize(IModel model);
 }
-
-
 
 public class Controller : IController
 {
     // Entrada atual do utilizador
     public string currentInput = "";
 
-    // Delegado para passar o buffer para a vista
-    //public delegate void PassabufferView(string value);
-    //public event PassabufferView AtualizaView;
-
     public event Action<string> AtualizaView;
+    public event Action<string> PassaAoModel;
 
     private IModel model;
     private IView view;
 
-
-    // Delegado para passar o buffer para o modelo
-    //public delegate void PassabufferModel(string value);
-    //public event PassabufferModel PassaAoModel;
-    public event Action<string> PassaAoModel;
-
     public Controller(IView view)
     {
-        // Regista o m�todo buttonClicked para ser chamado quando um bot�o � clicado na vista
-
+        
         this.view = view;
+
+        // Regista o método ButtonClicked para ser chamado quando um botão é clicado na view
         view.BotaoClicado += ButtonClicked;
     }
 
     public void Initialize(IModel model)
     {
         this.model = model;
-        model.PassaErroAoControl += errorHandling;
+        model.PassaErroAoControl += ErrorHandling;
     }
 
-
-    // M�todo chamado quando um bot�o � clicado na view
+    // Método chamado quando um botão é clicado na view
     public void ButtonClicked(string value)
     {
-        if (value == "=")
+        switch (value)
         {
-            PassaAoModel?.Invoke(currentInput);
-        }
-        else if (value == "C")
-        {
-            currentInput = "";
-            AtualizaView?.Invoke(currentInput);
-        }
-        else if (value == "B")
-        {
-
-            if (!string.IsNullOrEmpty(currentInput))
-            {
-                // implement the logic to remove the last character
-                currentInput = currentInput.Substring(0, currentInput.Length - 1);
+            case "=":
+                PassaAoModel?.Invoke(currentInput);
+                break;
+            case "C":
+                currentInput = "";
                 AtualizaView?.Invoke(currentInput);
-            }
-        }
-            
-        else
-        {
-            currentInput += value;
-            AtualizaView?.Invoke(currentInput);
+                break;
+            case "B":
+                if (!string.IsNullOrEmpty(currentInput))
+                {
+                    // Remove o último caracter
+                    currentInput = currentInput.Substring(0, currentInput.Length - 1);
+                    AtualizaView?.Invoke(currentInput);
+                }
+                break;
+            default:
+                currentInput += value;
+                AtualizaView?.Invoke(currentInput);
+                break;
         }
     }
 
-    public void errorHandling(string error)
+    public void ErrorHandling(string error)
     {
-        
         ((MonoBehaviour)view).StartCoroutine(ErrorHandlingCoroutine(error));
-
     }
 
     private IEnumerator ErrorHandlingCoroutine(string error)
@@ -95,6 +76,4 @@ public class Controller : IController
         yield return new WaitForSeconds(2);
         AtualizaView?.Invoke(currentInput);
     }
-
-
 }

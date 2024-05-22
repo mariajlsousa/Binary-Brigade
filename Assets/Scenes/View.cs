@@ -5,7 +5,7 @@ using TMPro;
 using System;
 using UnityEditor;
 
-
+// Interface para a View
 public interface IView
 {
     event Action<string> BotaoClicado;
@@ -13,19 +13,18 @@ public interface IView
 }
 
 
+// Implementação da View
 public class View : MonoBehaviour, IView
 {
     // Referência para o controlador e modelo
     private IController controller;
     private IModel model;
 
-    // Referência para o texto na tela
+    // Referência para o texto no ecrã
     public TextMeshProUGUI Screen;
 
 
-    // Definição de um delegate para lidar com cliques nos botões
-    //public delegate void AoClicarNoBotao(string value);
-    //public event AoClicarNoBotao BotaoClicado;
+    // Evento acionado quando um botão é clicado
     public event Action<string> BotaoClicado;
 
     void Start()
@@ -51,7 +50,7 @@ public class View : MonoBehaviour, IView
         BotaoClicado?.Invoke(buttonValue);
     }
 
-    // Método para atualizar o texto exibido no ecra
+    // Método para atualizar o texto exibido no ecrã
     public void UpdateDisplay(string current)
     {
         Screen.text = current;
